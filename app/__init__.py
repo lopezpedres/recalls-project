@@ -1,8 +1,11 @@
-from flask import Flask
+from flask import Flask, render_template, Blueprint
 
 def create_app():
     app = Flask(__name__)
+
     @app.route('/')
     def index():
-        return 'You got it!'
+        return render_template('index.html')
     return app
+
+
