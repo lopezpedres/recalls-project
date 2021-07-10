@@ -15,6 +15,14 @@
         {{form.hidden_tag()}}
         <h2> Signup here!</h2>
         <div>
+            {{form.name.label}}
+            {{form.name}}
+            {% for error in form.name.errors %}
+                <span style='color: red;'> {error}</span>
+            {% endfor %}
+                
+        </div>
+        <div>
             {{form.email.label}}
             {{form.email}}
             {% for error in form.email.errors %}

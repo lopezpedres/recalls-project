@@ -10,10 +10,14 @@ from flask import redirect, request, url_for, render_template
 
 logger = logging.getLogger(__name__)
 
+@auth_bp.route("/")
+def go_index():
+    return render_template('auth/index.html')
+
 @auth_bp.route('/login/', methods= ['GET', 'POST'])
 def go_login():
     if current_user.is_authenticated:
-        return redirect('go_index')
+        return redirect('auth.go_index')
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -21,10 +25,10 @@ def go_login():
 
         if user is None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            next_page= request.args.get(url_for('index'))
+            next_page= request.args.get(url_for('auth.go_index'))
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
-                return redirect('go_index')
+                return redirect('auth.go_index')
 
     return render_template('auth/login.html', form=form)
 
@@ -38,20 +42,22 @@ def go_signup():
         email=form.email.data
         password=form.password.data
 
-        user=User.get_by_email(email)
+        logger.info('Form validated')
 
+        user=User.get_by_email(email)
         if user is not None:
             error=f'La cuenta {email} ya existe.'
         else:
             user=User(name=name, email=email)
             user.set_password(password)
             user.save()
+            logger.info('New user created')
 
             login_user(user, remember=True)
-            next_page= request.args.get(url_for('go_index'))
+            next_page= request.args.get(url_for('auth.go_index'))
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
-                return redirect('go_index')
+                return redirect('auth.go_index')
     return render_template('auth/signup.html', form=form, error=error)
         
 @login_manager.user_loader

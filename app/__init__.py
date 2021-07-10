@@ -27,12 +27,6 @@ def create_app():
     logger.info('Registering Auth Blueprint')
 
 
-
-    
-    @app.route("/")
-    def go_index():
-        return 'Genial!'
-
     return app
 
 
