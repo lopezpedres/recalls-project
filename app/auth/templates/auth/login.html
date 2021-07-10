@@ -16,7 +16,7 @@
             </div>
         
             <div>
-                {{ form.password.lable }}
+                {{ form.password.label }}
                 {{ form.password }}
                 {% for error in form.password.error %}
                 <span style="color: red;">{{error}}</span>
@@ -32,7 +32,7 @@
             </div>
         
             <div>
-                <p>If you don't have an account click <a href="{{url_for(auth.go_signup)}}"> here </a></p>
+                <p>If you don't have an account click <a href="{{url_for('auth.go_signup')}}"> here </a></p>
             </div>
 </div>
 

@@ -1,17 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Email, Length
 
-class SignForm():
+class SignupForm(FlaskForm):
     name = StringField("Name", validators=[DataRequired(), Length(max=64)])
-    email = PasswordField("Email", validators=[DataRequired(), Email()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
-    admin = BooleanField("Admin", validators=[])
+    admin = BooleanField("Admin")
+    submit = SubmitField('Register')
 
-class LoginForm():
-    email = PasswordField("Email", validators=[DataRequired(), Email])
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember_me = BooleanField("RememberMe")
+    submit = SubmitField('Login')
     
 
 

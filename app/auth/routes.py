@@ -3,8 +3,9 @@ from .models import User
 from.forms import LoginForm, SignupForm
 import logging
 from werkzeug.urls import url_parse
-from flask_login import login_user, log_out
-from flask import current_user, redirect, request, url_for, render_template
+from flask_login import login_user, current_user
+from app import login_manager
+from flask import redirect, request, url_for, render_template
 
 
 logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 @auth_bp.route('/login/', methods= ['GET', 'POST'])
 def go_login():
     if current_user.is_authenticated:
-        return redirect('index')
+        return redirect('go_index')
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -20,23 +21,25 @@ def go_login():
 
         if user is None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            next_page= request.args.get(url_for('public.index'))
+            next_page= request.args.get(url_for('index'))
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
-                return redirect('index')
+                return redirect('go_index')
 
     return render_template('auth/login.html', form=form)
+
 
 @auth_bp.route('/signup/', methods=['GET','POST'])
 def go_signup():
     form=SignupForm()
+    error=None
     if form.validate_on_submit():
         name=form.name.data
         email=form.email.data
         password=form.password.data
 
         user=User.get_by_email(email)
-        error=None
+
         if user is not None:
             error=f'La cuenta {email} ya existe.'
         else:
@@ -45,13 +48,15 @@ def go_signup():
             user.save()
 
             login_user(user, remember=True)
-            next_page= request.args.get(url_for('index'))
+            next_page= request.args.get(url_for('go_index'))
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
-                return redirect('index')
-    return render_template('auth/signup', form=form, error=error)
+                return redirect('go_index')
+    return render_template('auth/signup.html', form=form, error=error)
         
-
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_by_id(user_id)
 
 
 

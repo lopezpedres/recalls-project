@@ -1,5 +1,4 @@
 from flask_login import UserMixin
-from app import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
@@ -28,6 +27,11 @@ class User(db.Model, UserMixin):
     @staticmethod
     def get_by_email(email):
         return User.query.filter(email=email).first()
+    
+    @staticmethod
+    def get_by_id(id):
+        return User.query.get(id)
+
 
 
 
