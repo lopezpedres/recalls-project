@@ -26,7 +26,7 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def get_by_email(email):
-        return User.query.filter(email=email).first()
+        return User.query.filter_by(email=email).first()
     
     @staticmethod
     def get_by_id(id):
