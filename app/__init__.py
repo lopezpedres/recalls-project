@@ -29,6 +29,11 @@ def create_app():
     app.register_blueprint(auth_bp)
     logger.info('Registering Auth Blueprint')
 
+    from .sales import sales_bp
+    app.register_blueprint(sales_bp)
+    logger.info('Registering Sales Blueprint')
+    
+
     
 
 
