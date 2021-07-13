@@ -11,7 +11,7 @@
     {% endif %}
 </div> 
 <div>
-    <form action="" methods='post' nonvalidate>
+    <form action="" method='post' nonvalidate>
         {{form.hidden_tag()}}
         <h2> Signup here!</h2>
         <div>
@@ -33,14 +33,15 @@
         <div>
             {{form.password.label}}
             {{form.password}}
-            {% for error in form.email.errors %}
+            {% for error in form.password.errors %}
                 <span style='color: red;'></span>
             {% endfor %}
         </div>
         <div>
             {{form.submit()}}
         </div>
+
+    </form>
 </div>
-    
 {% endblock %}
 

@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 @auth_bp.route("/")
 def go_index():
+    logger.info("Getting index page")
     return render_template('auth/index.html')
 
 @auth_bp.route('/login/', methods= ['GET', 'POST'])
@@ -58,7 +59,9 @@ def go_signup():
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
                 return redirect('auth.go_index')
-    return render_template('auth/signup.html', form=form, error=error)
+    else: 
+        logger.debug('Hola')
+        return render_template('auth/signup.html', form=form, error=error)
         
 @login_manager.user_loader
 def load_user(user_id):
