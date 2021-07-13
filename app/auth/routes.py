@@ -18,19 +18,19 @@ def go_index():
 @auth_bp.route('/login/', methods= ['GET', 'POST'])
 def go_login():
     if current_user.is_authenticated:
-        return redirect('auth.go_index')
+        return redirect(url_for('auth.go_index'))
 
     form = LoginForm()
     if form.validate_on_submit():
         user=User.get_by_email(form.email.data)
 
-        if user is None and user.check_password(form.password.data):
+        if user is not None and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
-            next_page= request.args.get(url_for('auth.go_index'))
+            next_page= request.args.get("next", None)
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
-                return redirect('auth.go_index')
-
+                next_page= url_for('auth.go_index')
+                return redirect(next_page)
     return render_template('auth/login.html', form=form)
 
 
@@ -55,13 +55,13 @@ def go_signup():
             logger.info('New user created')
 
             login_user(user, remember=True)
-            next_page= request.args.get(url_for('auth.go_index'))
+            next_page= request.args.get("next", None)
 #Como funciona el next page?! Se que es para darle seguridad a la pagina pe
             if not next_page or url_parse(next_page).netlog !='':
-                return redirect('auth.go_index')
-    else: 
-        logger.debug('Hola')
-        return render_template('auth/signup.html', form=form, error=error)
+                next_page= url_for('auth.go_index')
+                return redirect(next_page)
+
+    return render_template('auth/signup.html', form=form, error=error)
         
 @login_manager.user_loader
 def load_user(user_id):

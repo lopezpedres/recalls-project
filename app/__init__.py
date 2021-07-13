@@ -16,7 +16,7 @@ def create_app():
 #This values are going to be moved to the config folder
     app.config['SECRET_KEY']= secrets.token_hex(16)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123Aapostgres@localhost/ems'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123Aapostgres@localhost/ems-db'
 
 #creating db instance
     login_manager.init_app(app)
