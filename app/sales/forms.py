@@ -13,9 +13,19 @@ class customerForm(FlaskForm):
 	submit = SubmitField('Create')
 
 class orderForm(FlaskForm):
-	customer = StringField('customer', validators=[DataRequired(), Length(max=64)])
+	customer = StringField('customer', validators=[DataRequired(), Length()])
 	pay_method =StringField('Pay Method', validators=[DataRequired(), Length(max=64)])
-	shipping_date= DateField('shipping_date',validators=[DataRequired])
+	shipping_date = DateField('shipping_date',validators=[DataRequired()])
+	submit = SubmitField('Create')
+
+	
+class orderDetailsForm(FlaskForm):
+	product_type = StringField('Product Type', validators=[DataRequired(), Length(max=64)])
+	presentation = StringField('Quantity',validators=[DataRequired()]) 
+	quantity = IntegerField('Quantity',validators=[DataRequired()])
+	submit = SubmitField('Create')
+
+
 
 
 
