@@ -1,0 +1,14 @@
+#template create_clients.html
+	
+{% extends "base_template.html" %}
+{% block title %}
+	Orders
+{% endblock %}
+
+{% block content %}
+{% for order in order %}
+    <ul>
+        <li >order</li> #TODO añadir la tabla para mostrar todos los campos de la tabla
+    </ul>
+{% endfor %}
+{% endblock %}

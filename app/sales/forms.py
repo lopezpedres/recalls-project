@@ -1,7 +1,7 @@
 #creating the form for clients
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, DateField
+from wtforms import StringField, IntegerField, SubmitField, DateField, FloatField
 from wtforms.validators import DataRequired, Email, Length
 
 class customerForm(FlaskForm):
@@ -13,16 +13,16 @@ class customerForm(FlaskForm):
 	submit = SubmitField('Create')
 
 class orderForm(FlaskForm):
-	customer = StringField('customer', validators=[DataRequired(), Length()])
+	customer = StringField('Customer', validators=[DataRequired(), Length()])
 	pay_method =StringField('Pay Method', validators=[DataRequired(), Length(max=64)])
-	shipping_date = DateField('shipping_date',validators=[DataRequired()])
+	shipping_date = DateField('Shipping Date',validators=[DataRequired()])
 	submit = SubmitField('Create')
 
 	
-class orderDetailsForm(FlaskForm):
-	product_type = StringField('Product Type', validators=[DataRequired(), Length(max=64)])
-	presentation = StringField('Quantity',validators=[DataRequired()]) 
-	quantity = IntegerField('Quantity',validators=[DataRequired()])
+class productForm(FlaskForm):
+	name = StringField('Product Type', validators=[DataRequired(), Length(max=64)])
+	key_string = StringField('Quantity',validators=[DataRequired()]) 
+	price = FloatField('price',validators=[DataRequired()])
 	submit = SubmitField('Create')
 
 
