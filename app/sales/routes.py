@@ -88,6 +88,11 @@ def go_orders():
 	orders=Order.get_all()
 	return render_template("sales/orders.html", orders=orders)
 
+@sales_bp.route('/sales/order_details/', methods=['GET', 'POST'])
+def go_order_details(order_id):
+	order = Order.get_by_id()
+
+
 @sales_bp.route('/sales/product_list') # TODO añadir numero de orden en el path de
 def go_product_order():
 	products= Product.get_all() #TODO TERMINAR LA SELECCION DEL PRODUCTO Y AÑADIRLO A LA BASE DE DATOS 

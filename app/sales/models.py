@@ -27,16 +27,25 @@ class Customers(db.Model):
 		return Customers.query.filter_by(name=name).first()
 	
 	@staticmethod
-	def get_all_customers():
+	def get_all():
 		return Customers.query.all() 
 
 
-"""Link table for the many-to-many relation between Product table and Order table"""
+"""Link table for the many-to-many relation between Product table and Order table, note necesary because we need the quantity calomn in that table"""
 
-rsh_product_order = db.Table('product_order',
+'''rsh_product_order = db.Table('product_order',
     db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True),
-    db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True)
-)
+    db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True))'''
+
+
+class Order_products(db.Model):
+	__tablename__ = "order_products"
+	id = db.Column(db.Integer, ForeignKey=True)
+	order_id = db.Column(db.Integer, db.Foreingkey('order.id', ondelete='CASCADE'),nullable=False)
+	product_id = db.Column(db.Integer, db.Foreingkey('product.id', ondelete='CASCADE'),nullable=False)
+	quantity = db.Column(db.Integer, nullable=False)
+
+	products = db.relationship('products', backref = db.backref('order_products', cascade='all, delete-orphan'))
 
 
 	
@@ -48,10 +57,7 @@ class Order(db.Model):
 	order_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 	shipping_date = db.Column(db.DateTime)
 	product_order = db.relationship('product',
-						secondary=rsh_product_order,
-						backref='order',
-						lazy=True,
-						cascade='all, delete-orphan'
+						secondary= 'product_order'
 						)
 
 	status = db.Column(db.Boolean, default=False)
@@ -68,8 +74,11 @@ class Order(db.Model):
 
 
 	@staticmethod
-	def get_orders():
+	def get_all():
 		return Order.query.all()
+	@staticmethod
+	def get_by_id():
+		return Order.query.get(id)
 	
 
 class Product(db.Model):
