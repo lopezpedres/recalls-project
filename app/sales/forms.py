@@ -21,9 +21,14 @@ class orderForm(FlaskForm):
 	
 class productForm(FlaskForm):
 	name = StringField('Product Type', validators=[DataRequired(), Length(max=64)])
-	key_string = StringField('Quantity',validators=[DataRequired()]) 
+	key_string = StringField('key_string',validators=[DataRequired()]) 
 	price = FloatField('price',validators=[DataRequired()])
 	submit = SubmitField('Create')
+
+class orderProductForm(FlaskForm):
+	product = StringField('Product', validators=[DataRequired(), Length(max=64)])
+	quantity = IntegerField('Quantity',validators=[DataRequired()]) 
+	submit = SubmitField('Add Product')
 
 
 

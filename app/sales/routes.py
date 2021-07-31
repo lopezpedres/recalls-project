@@ -1,9 +1,10 @@
 #creating clients/route.py
-from .forms import customerForm, productForm, orderForm,
-from .models import Customers, Product, Order
+from .forms import customerForm, productForm, orderForm, orderProductForm
+from .models import Customers, Product, Order, Order_products
 from werkzeug.urls import url_parse
 from flask import render_template, redirect, url_for, request
 from . import sales_bp
+
 
 @sales_bp.route('/sales/new_customer/', methods= ['GET', 'POST'])
 def go_new_customer():
@@ -54,8 +55,8 @@ def go_new_product():
 
 @sales_bp.route('/sales/customers/', methods= ['GET', 'POST'])
 def go_products():
-	produts = Product.get_all()
-	return render_template("sales/products.html", produts=produts)
+	products = Product.get_all()
+	return render_template("sales/products.html", products=products)
 
 @sales_bp.route('/sales/new_order/', methods= ['GET', 'POST'])
 def go_new_order():
@@ -75,7 +76,7 @@ def go_new_order():
 				order.save()
 				next_page = request.args.get('next',None)
 		    	if not next_page or url_parse(next_page).netlog!='':
-			    return redirect(url_for('sales.go_orders')) #TODO create orders route
+			    return redirect(url_for('sales.go_orders')) 
 			else:
 				error = 'There is no customer with that name.'
 				return error
@@ -90,9 +91,26 @@ def go_orders():
 
 @sales_bp.route('/sales/order_details/', methods=['GET', 'POST'])
 def go_order_details(order_id):
-	order = Order.get_by_id()
+	order = Order.get_by_id(order_id)
+	products= Product.get_all()  
+	form = orderProductForm()
+	if form.validate_on_submit():
+		product = Product.get_by_name(form.product.data)
+		quantity = form.quantity.data
+		order_product = Order_products(order_id=order.id, product_id=product.id, quantity=quantity)
+		order_product.save()
+		#add selected product to the order
+		order.order_products.append(order_product)
+		print('new product in the order')
+		return redirect(url_for('sales.go_order_details', order=order, products=products))
+	return render_template('sales/order_details.html')
+			
+
+	
+
+
 
 
 @sales_bp.route('/sales/product_list') # TODO añadir numero de orden en el path de
-def go_product_order():
+def go_order_product():
 	products= Product.get_all() #TODO TERMINAR LA SELECCION DEL PRODUCTO Y AÑADIRLO A LA BASE DE DATOS 

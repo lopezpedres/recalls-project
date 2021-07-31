@@ -40,14 +40,16 @@ class Customers(db.Model):
 
 class Order_products(db.Model):
 	__tablename__ = "order_products"
-	id = db.Column(db.Integer, ForeignKey=True)
+	id = db.Column(db.Integer, primary_key=True)
 	order_id = db.Column(db.Integer, db.Foreingkey('order.id', ondelete='CASCADE'),nullable=False)
 	product_id = db.Column(db.Integer, db.Foreingkey('product.id', ondelete='CASCADE'),nullable=False)
 	quantity = db.Column(db.Integer, nullable=False)
 
-	products = db.relationship('products', backref = db.backref('order_products', cascade='all, delete-orphan'))
+	order = db.relationship('order', backref = db.backref('order_products', cascade='all, delete-orphan')) 
 
-
+	def save(self):
+		db.session.add(self)
+		db.session.commit()
 	
 class Order(db.Model):
 	__tablename__ = "order"
@@ -56,11 +58,12 @@ class Order(db.Model):
 	pay_method = db.Column(db.String, nullable=False)
 	order_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 	shipping_date = db.Column(db.DateTime)
-	product_order = db.relationship('product',
-						secondary= 'product_order'
+	status = db.Column(db.Boolean, default=False)
+
+	order_products = db.relationship('product',
+						secondary= 'order_products'
 						)
 
-	status = db.Column(db.Boolean, default=False)
 
 	def save(self):
 		db.session.add(self)
