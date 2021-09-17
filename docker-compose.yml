@@ -3,9 +3,24 @@ version: '3'
 services:
   database:
     image: "postgres" # use latest official postgres version
-    env_file:
-      - app/config/database.env # configure postgres
+    ports: 
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=unam_database
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+  app: 
+    build: ./app
+    environment:
+      - FLASK_APP=entrypoint
+      - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:password@ems-project_database_1/unam_database
+    ports: 
+      - "80:5000" #Link local port 80 to container port 5000
+    volumes:
+      - "./app:/app" #Mount the local app directory into the container
+
+    
 volumes:
   database-data: # named volumes can be managed easier using docker-compose

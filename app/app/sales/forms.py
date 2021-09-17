@@ -13,7 +13,7 @@ class customerForm(FlaskForm):
 	submit = SubmitField('Create')
 
 class orderForm(FlaskForm):
-	customer = StringField('Customer', validators=[DataRequired(), Length()])
+	customer = StringField('Customer', validators=[DataRequired(), Length(max=64)])
 	pay_method =StringField('Pay Method', validators=[DataRequired(), Length(max=64)])
 	shipping_date = DateField('Shipping Date',validators=[DataRequired()])
 	submit = SubmitField('Create')
