@@ -38,7 +38,7 @@ class Customers(db.Model):
     db.Column('order_id', db.Integer, db.ForeignKey('order.id'), primary_key=True))'''
 
 
-class Order_products(db.Model):
+'''class Order_products(db.Model):
 	__tablename__ = "order_products"
 	id = db.Column(db.Integer, primary_key=True)
 	order_id = db.Column(db.Integer, db.Foreingkey('order.id', ondelete='CASCADE'),nullable=False)
@@ -101,7 +101,7 @@ class Product(db.Model):
 
 	@staticmethod
 	def get_all():
-		return Product.query.all()
+		return Product.query.all()'''
 
 
 
