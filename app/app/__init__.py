@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import secrets
 import logging
 from flask_migrate import Migrate
 from flask_login import LoginManager
@@ -11,11 +10,9 @@ login_manager = LoginManager()
 db=SQLAlchemy()
 migrate = Migrate()
 
-def create_app():
+def create_app(settings_module):
     app = Flask(__name__)
-#This values are going to be moved to the config folder
-    app.config['SECRET_KEY']= secrets.token_hex(16)
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
+    app.config.from_object(settings_module)
 
 #creating db instance
     login_manager.init_app(app)

@@ -15,7 +15,6 @@ services:
     build: ./app
     environment:
       - FLASK_APP=entrypoint
-      - SQLALCHEMY_DATABASE_URI=postgresql+psycopg2://postgres:password@ems-project_database_1/unam_database
     ports: 
       - "80:5000" #Link local port 80 to container port 5000
     volumes:
