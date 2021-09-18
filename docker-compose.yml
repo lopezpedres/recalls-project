@@ -15,6 +15,9 @@ services:
     build: ./app
     environment:
       - FLASK_APP=entrypoint
+      - APP_SETTINGS_MODULE=config.dev
+    env_file: 
+      - app/.env
     ports: 
       - "80:5000" #Link local port 80 to container port 5000
     volumes:
