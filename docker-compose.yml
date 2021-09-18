@@ -4,9 +4,9 @@ services:
   database:
     image: "postgres" # use latest official postgres version
     ports: 
-      - "5433:5432"
+      - "5432:5432"
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=docker-postgres
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=unam_database
     volumes:
@@ -19,9 +19,9 @@ services:
     env_file: 
       - app/.env
     ports: 
-      - "80:5000" #Link local port 80 to container port 5000
+      - "80:5000" #Link local port 80 to container port 5000docker colume
     volumes:
-      - "./app:/app" #Mount the local app directory into the container
+     - "./app:/app" #Mount the local app directory into the container
 
     
 volumes:
