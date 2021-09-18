@@ -5,19 +5,14 @@ services:
     image: "postgres" # use latest official postgres version
     ports: 
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=docker-postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=unam_database
+    env_file: 
+      - ./config/database.env
     volumes:
       - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
   app: 
     build: ./app
-    environment:
-      - FLASK_APP=entrypoint
-      - APP_SETTINGS_MODULE=config.dev
     env_file: 
-      - app/.env
+      - ./config/app.env
     ports: 
       - "80:5000" #Link local port 80 to container port 5000docker colume
     volumes:
