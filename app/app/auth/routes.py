@@ -3,7 +3,7 @@ from .models import User
 from.forms import LoginForm, SignupForm
 import logging
 from werkzeug.urls import url_parse
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user,logout_user
 from app import login_manager
 from flask import redirect, request, url_for, render_template
 
@@ -62,6 +62,11 @@ def go_signup():
                 return redirect(next_page)
 
     return render_template('auth/signup.html', form=form, error=error)
+
+@auth_bp.route('/logout/')
+def go_logout():
+    logout_user()
+    return redirect(url_for('auth.go_index'))    
         
 @login_manager.user_loader
 def load_user(user_id):

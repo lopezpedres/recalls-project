@@ -1,60 +1,47 @@
 {% extends "base_template.html" %}
 
-{% block title %} Login {% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="level">
-        <div class="level-left">
-            <div class="level-item">
-                <h2 class="title">Login in to your account</h2>
+    <div>
+        <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div>
+                <p class="control has-icons-left has-icons-right">
+                    {{ form.email(class="input", placeholder="Email")}}<br>
+                    <span class="icon is-small is-left">
+                        <ion-icon name="mail-outline"></ion-icon>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <ion-icon name="checkbox-outline"></ion-icon>                    </span>   
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </p>
+            </div> <br>
+            <div>
+                <p class="control has-icons-left has-icons-right">
+                    {{ form.password(class="input", placeholder="Password")}}<br>
+                    <span class="icon is-small is-left">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </span>
+                    <span class="icon is-small is-right">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </p>
             </div>
+            <div>{{ form.remember_me() }} {{ form.remember_me.label }}</div>
 
-        </div>
+            <div>
+                {{ form.submit(class="button is-primary") }}
+
+
+
+            </div>
+        </form>
     </div>
-</div>
-
-<div class="container">
-    <div class="level">
-        <div class="level-left">
-            <div class="level-item">
-                <div class="login">
-                <form action="" method= "post" nonvalidate>
-                    {{form.hidden_tag()}}
-                        <div>
-                            {{ form.email.label }}
-                            {{ form.email }} <br>
-                            {% for error in form.email.errors %}
-                            <span style="color: red;">{{error}}</span>
-                            {% endfor %}
-                        </div>
-                    
-                        <div>
-                            {{ form.password.label }}
-                            {{ form.password }}
-                            {% for error in form.password.error %}
-                            <span style="color: red;">{{error}}</span>
-                            {% endfor %}
-                        </div>
-            
-                        <div>
-                            {{form.remember_me()}} {{form.remember_me.label}}
-                        </div>
-                    
-                        <div>
-                            {{form.submit()}}
-                        </div>
-                    
-                        <div>
-                            <p>If you don't have an account click <a href="{{url_for('auth.go_signup')}}"> here </a></p>
-                        </div>
-            </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-
+    <div>You don't have an account?<a href="{{ url_for('auth.go_signup') }}">Signup!</a></div>
 {% endblock %}
