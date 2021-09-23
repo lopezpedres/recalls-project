@@ -1,5 +1,11 @@
 import logging
+#Here we add the error handling for the apis
+class AppErrorBaseClass(Exception):
+    pass
+class ObjectNotFound(AppErrorBaseClass):
+    pass
 
+#Here we configure the logs for the app by adding the logging levels and the handlers
 def configure_logging(app):
     #borramos todo en caso de que hayamos añadido algo
     del app.logger.handlers[:]
@@ -24,3 +30,4 @@ def verbose_formatter():
         '[%(asctime)s.%(msecs)d]\t %(levelname)s \t[%(name)s.%(funcName)s:%(lineno)d]\t %(message)s',
         datefmt='%d/%m/%Y %H:%M:%S'
     )
+

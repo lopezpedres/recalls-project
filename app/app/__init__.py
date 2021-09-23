@@ -1,38 +1,60 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, jsonify
+
+from app.error_handler import ObjectNotFound, AppErrorBaseClass
+from .ext import ma, migrate, login_manager
+from .db import db
 import logging
-from flask_migrate import Migrate
-from flask_login import LoginManager
 from .error_handler import configure_logging
+from flask_restful import Api
+from .auth.resources import user_v1_bp
 
 
-login_manager = LoginManager()
-db=SQLAlchemy()
-migrate = Migrate()
 
 def create_app(settings_module):
     app = Flask(__name__)
+    
     app.config.from_object(settings_module)
 
-#creating db instance
     login_manager.init_app(app)
     configure_logging(app)
-    logger= logging.getLogger(__name__)
+    logger = logging.getLogger(__name__)
+    logger.info('app, modules and logs created')
+
     db.init_app(app)
+    ma.init_app(app)
     migrate.init_app(app, db)
+    logger.info('db,ma and migration initialized')
 
-    from .auth import auth_bp
-    app.register_blueprint(auth_bp)
-    logger.info('Registering Auth Blueprint')
-
-    from .sales import sales_bp
-    app.register_blueprint(sales_bp)
-    logger.info('Registering Sales Blueprint')
+    Api(app,catch_all_404s=True)
+    #logger.info('404 erores catched')
     
+    app.url_map.strict_slashes = False
 
-    
+    app.register_blueprint(user_v1_bp)
+    logger.info('user blueprint registered')
 
 
     return app
+
+
+def register_error_handlers(app):
+    @app.errorhandler(Exception)
+    def handle_exception_error(e):
+        return jsonify({'msg': 'Internal server error'}), 500
+    @app.errorhandler(405)
+    def handle_405_error(e):
+        return jsonify({'msg': 'Method not allowed'}), 405
+    @app.errorhandler(403)
+    def handle_403_error(e):
+        return jsonify({'msg': 'Forbidden error'}), 403
+    @app.errorhandler(404)
+    def handle_404_error(e):
+        return jsonify({'msg': 'Not Found error'}), 404
+    @app.errorhandler(AppErrorBaseClass)
+    def handle_app_base_error(e):
+        return jsonify({'msg': str(e)}), 500
+    @app.errorhandler(ObjectNotFound)
+    def handle_object_not_found_error(e):
+        return jsonify({'msg': str(e)}), 404
 
 
