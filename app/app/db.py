@@ -17,4 +17,4 @@ class BaseModelMixin:
         return cls.query.get(id)
     @classmethod
     def simple_filter(cls, **kwargs):
-        return cls.query.filter_by(**kwargs).all()
+        return cls.query.filter_by(**kwargs).first()

@@ -8,6 +8,7 @@ class User(db.Model, BaseModelMixin):
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
     admin = db.Column(db.Boolean, default=False)
+    sesion_token= db.Column(db.String, nullable=True)
 
     def __repr__(self):
         return f'<User: {self.email}>'
@@ -17,11 +18,10 @@ class User(db.Model, BaseModelMixin):
         
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+       return check_password_hash(self.password, password)
+
+    @staticmethod
+    def get_by_email(email):
+        return User.query.filter_by(email=email).first()
     
-
-
-
-
-
 

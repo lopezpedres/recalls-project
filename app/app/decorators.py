@@ -6,7 +6,7 @@ from app.app import app
 def check_token(func):
     @wraps(func)
     def wrapped(*args,**kwargs):
-        token = request.arg.get('token')
+        token = request.arg.get('access_token')
         if not token:
             return jsonify('message: Missing Token'), 403
         try:    

@@ -8,8 +8,8 @@ set +a
 if [ -n "$PYTHON_VENV" ]; then
   source ./venv/scripts/activate
   #flask db init
-  #flask db migrate -m "local migrations"
-  #flask db upgrade
+  flask db migrate -m "added session_token field in user table"
+  flask db upgrade
 fi
 # this command knows the entrypoint is app/entrypoint.py
 flask run

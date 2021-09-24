@@ -1,6 +1,8 @@
 from app.error_handler import ObjectNotFound
 from flask import request, Blueprint
 from flask_restful import Api, Resource
+import jwt
+import os
 
 from .schemas import UserSchema
 from .models import User
@@ -22,13 +24,23 @@ class UseriD(Resource):
 
 
 class login(Resource):
-    def post(self, email,password):
+    def post(self):
         data = request.get_json()
-        user = User.simple_filter(email=email) #Is not returning the user
-        if user is None:
-            raise ObjectNotFound('The user does not exit')
-        result = user_schema.dump(user)
-        return result, 200
+        request_dict=user_schema.dump(data)
+        user = User.get_by_email(email=request_dict['email'])
+        if user is not None and user.check_password(request_dict['password']):
+            pay_load = {
+                'id': user.id,
+                'email': user.email
+                }
+            resp = jwt.enconde(pay_load, os.getenv("SECRET_KEY"))
+            user.session_token=resp
+            user.save()
+            return resp, 200
+        else:
+            raise ObjectNotFound('The user  or password are incorrect')
+
+        
 
 
 
@@ -51,5 +63,5 @@ class UserNew(Resource):
         
 
 api.add_resource(UseriD, '/api/v1.0/<int:user_id>', endpoint='user_id')
-api.add_resource(UserCheck, '/api/v1.0/email/<string:email>', endpoint='user_email')
+api.add_resource(login, '/api/v1.0/login', endpoint='login')
 api.add_resource(UserNew, '/api/v1.0/new_user', endpoint = 'user_new')
