@@ -21,8 +21,9 @@ class UseriD(Resource):
 
 
 
-class UserCheck(Resource):
-    def get(self, email):
+class login(Resource):
+    def post(self, email,password):
+        data = request.get_json()
         user = User.simple_filter(email=email) #Is not returning the user
         if user is None:
             raise ObjectNotFound('The user does not exit')
