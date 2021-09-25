@@ -1,3 +1,4 @@
+from flask.json import jsonify
 from app.error_handler import ObjectNotFound
 from flask import request, Blueprint
 from flask_restful import Api, Resource
@@ -27,18 +28,22 @@ class login(Resource):
     def post(self):
         data = request.get_json()
         request_dict=user_schema.dump(data)
-        user = User.get_by_email(email=request_dict['email'])
-        if user is not None and user.check_password(request_dict['password']):
+        user = User.get_by_email(request_dict['email'])
+        if user is None:
+            raise ObjectNotFound('The user  or password are incorrect')
+        if user.check_password(request_dict['password']): 
             pay_load = {
                 'id': user.id,
                 'email': user.email
                 }
-            resp = jwt.enconde(pay_load, os.getenv("SECRET_KEY"))
-            user.session_token=resp
+            token = jwt.encode(payload=pay_load, key=os.getenv('SECRET_KEY'))
+            user.session_token=token
             user.save()
-            return resp, 200
+            resp=token
+            return resp, 201
         else:
-            raise ObjectNotFound('The user  or password are incorrect')
+            raise ObjectNotFound('The user does not exit')
+    
 
         
 
@@ -48,15 +53,16 @@ class UserNew(Resource):
     def post(self):
         data = request.get_json()
         request_dict = user_schema.load(data)
-        user = User.simple_filter(email=request_dict['email'])
+        user = User.get_by_email(email=request_dict['email'])
+
         if user:
             raise ObjectNotFound('There is a user with that email, try again')
 
         user = User(
             name = request_dict['name'],
             email = request_dict['email'],
-            password = User.set_password(request_dict['password']),
             admin = request_dict['admin'])
+        user.set_password(request_dict.get('password'))
         user.save()
         resp=user_schema.dump(user)
         return resp, 201

@@ -8,7 +8,16 @@ class User(db.Model, BaseModelMixin):
     email = db.Column(db.String, nullable=False)
     password = db.Column(db.String, nullable=False)
     admin = db.Column(db.Boolean, default=False)
-    sesion_token= db.Column(db.String, nullable=True)
+    session_token= db.Column(db.String, nullable=True)
+
+    '''def __init__(self,id,name,email,password,admin,session_token):
+        self.id=id,
+        self.name=name,
+        self.email=email,
+        self.password=password,
+        self.admin=admin,
+        self.session_token=session_token'''
+
 
     def __repr__(self):
         return f'<User: {self.email}>'
@@ -23,5 +32,3 @@ class User(db.Model, BaseModelMixin):
     @staticmethod
     def get_by_email(email):
         return User.query.filter_by(email=email).first()
-    
-
