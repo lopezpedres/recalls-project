@@ -17,7 +17,14 @@ services:
       - "80:5000" #Link local port 80 to container port 5000docker colume
     volumes:
      - "./app:/app" #Mount the local app directory into the container
-
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+      - "15319:15319"
+      - "24678:24678"
+    volumes:
+      - "./web/src:/usr/app/src"
     
 volumes:
   database-data: # named volumes can be managed easier using docker-compose

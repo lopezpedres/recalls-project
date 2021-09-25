@@ -30,6 +30,7 @@ async function startServer() {
       url,
     };
     const pageContext = await renderPage(pageContextInit);
+    //console.log(pageContext);
     const { httpResponse } = pageContext;
     if (!httpResponse) return next();
     res.status(httpResponse.statusCode).send(httpResponse.body);

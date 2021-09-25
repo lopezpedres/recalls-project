@@ -14,6 +14,11 @@ export default defineConfig({
       plugins: [tailwindcss(config as any), autoprefixer()],
     },
   },
+  server: {
+    hmr: {
+      port: 15319
+    }
+  },
   resolve: {
     alias: {
       "lib": path.resolve(__dirname, "./src/lib"),

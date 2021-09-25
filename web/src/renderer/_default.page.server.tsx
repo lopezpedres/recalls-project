@@ -36,7 +36,7 @@ async function render(pageContext: PageContextBuiltIn & PageContext) {
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>
       </body>
     </html>`;
-
+  
   return {
     documentHtml,
     pageContext: {
