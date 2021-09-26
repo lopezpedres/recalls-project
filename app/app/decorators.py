@@ -1,18 +1,22 @@
 import jwt
-from flask import jsonify, request
+from flask import jsonify, request, abort, make_response
 from functools import wraps
 import os
 
 def check_token(func):
     @wraps(func)
     def wrapped(*args,**kwargs):
-        token = request.arg.get('access_token')
-        if not token:
-            return jsonify('message: Missing Token'), 403
+        # Bearer <token>
+        print('Checking token')
+        token = request.headers["Authorization"]
+        print(token)
+        if token is None or token.strip() == "Bearer" or token.strip() == "":
+            return make_response({'msg': 'No token'},403)
         try:    
+            token = token.split(" ")[1]
             data = jwt.decode(token, os.getenv('SECRET_KEY'), 'HS256')
         except:
-            return jsonify('message: Invalid Token'), 403
+            return make_response({'msg': 'Invalid Token'}, 403)
         return func(*args,**kwargs)
     return wrapped
 

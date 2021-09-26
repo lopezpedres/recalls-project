@@ -1,3 +1,4 @@
+from app.decorators import check_token
 from flask.json import jsonify
 from app.error_handler import ObjectNotFound
 from flask import request, Blueprint
@@ -22,6 +23,15 @@ class UseriD(Resource):
         result = user_schema.dump(user)
         return result, 200
 
+class UserAll(Resource):
+    def get(self):
+        users= User.get_all()
+        if len(users) == 0:
+            raise ObjectNotFound('There are no Users')
+        result = user_schema.dump(users, many=True)
+        return result, 200
+
+
 
 
 class login(Resource):
@@ -40,17 +50,16 @@ class login(Resource):
             user.session_token=token
             user.save()
             resp=token
-            return resp, 201
+            return resp, 200
         else:
             raise ObjectNotFound('The user does not exit')
     
 
         
 
-
-
 class UserNew(Resource):
-    def post(self):
+    @check_token
+    def put(self):
         data = request.get_json()
         request_dict = user_schema.load(data)
         user = User.get_by_email(email=request_dict['email'])
@@ -66,8 +75,10 @@ class UserNew(Resource):
         user.save()
         resp=user_schema.dump(user)
         return resp, 201
+
         
 
-api.add_resource(UseriD, '/api/v1.0/<int:user_id>', endpoint='user_id')
-api.add_resource(login, '/api/v1.0/login', endpoint='login')
-api.add_resource(UserNew, '/api/v1.0/new_user', endpoint = 'user_new')
+api.add_resource(UseriD, '/api/v1/users/<int:user_id>', endpoint='get-user')
+api.add_resource(UserAll, '/api/v1/users', endpoint='all-users')
+api.add_resource(login, '/api/v1/login', endpoint='login')
+api.add_resource(UserNew, '/api/v1/users', endpoint = 'new-user')

@@ -33,13 +33,15 @@ def create_app(settings_module):
     app.register_blueprint(user_v1_bp)
     logger.info('user blueprint registered')
 
-
+    #register_error_handlers(app)
+    
     return app
 
 
 def register_error_handlers(app):
     @app.errorhandler(Exception)
     def handle_exception_error(e):
+        print(e)
         return jsonify({'msg': 'Internal server error'}), 500
     @app.errorhandler(405)
     def handle_405_error(e):
