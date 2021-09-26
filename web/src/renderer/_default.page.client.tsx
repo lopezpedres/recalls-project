@@ -15,6 +15,7 @@ async function hydrate() {
   createStore();
 
   const app = document.getElementById("page-view");
+  console.log(Page);
   if (app && Page) {
     app.innerHTML = Page(pageProps);
   }

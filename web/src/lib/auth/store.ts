@@ -4,6 +4,7 @@ import set from "lodash.set";
 
 export type State = {
   user: any;
+  token?: string;
 }
 
 const loginEndpoint = "http://localhost:5000/api/v1.0/login";
@@ -55,5 +56,9 @@ export const module: StoreonModule<S, E> = (store) => {
       });
     });
     return set(state, "user", { email, password });
+  });
+  
+  store.on("auth.signin.success", (state, { token }) => {
+    return set(state, "token", token);
   });
 }
