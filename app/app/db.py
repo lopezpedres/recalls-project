@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
-class BaseModelMixin:
+class BaseModelMixin():
     """This are general methods for all database objects"""
     def save(self):
         db.session.add(self)
