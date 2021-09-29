@@ -25,3 +25,5 @@ docker-compose up -d
 # or for local development
 ./scripts/start.sh
 ```
+By running this command in your local machine the app would not be connected to the database unless the database is active in docker.
+Activate
