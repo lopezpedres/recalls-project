@@ -5,8 +5,11 @@ class products(db.Model, BaseModelMixin):
     product_unique = db.Column(db.String, nullable=False)
     product_name= db.Column(db.String,nullable=False)
 
-    inventory_rsh= db.Relationship('inventory', back_populates='products')
-    orders_rsh = db.Relationship('order_product', back_populates='products')
+    rsh_inventory = db.Relationship('inventory', back_populates='products', lazy=True, cascade="all, delete")
+    rsh_orders = db.Relationship('order_product', back_populates='products', lazy=True, cascade="all, delete")
+
+    #rsh_products = db.relationship('Products', lazy=True, backref=db.backref('type', lazy=True))
+
 
     def __repr__(self):
         return f'<Unique Product Identifier: {self.product_unique}>'
