@@ -4,9 +4,9 @@ set -a
 source $(dirname "$0")/../config/app.local.env
 set +a
 
-# flask db init
-# flask db migrate -m "correction of the name session_token"
-# flask db upgrade
+#flask db init
+flask db migrate -m "Have to save the changes in the class everytime I change something"
+flask db upgrade
 
 # if PYTHON_VENV is set, then activate it
 if [ -n "$PYTHON_VENV" ]; then

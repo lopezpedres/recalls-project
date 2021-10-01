@@ -7,6 +7,8 @@ import logging
 from .error_handler import configure_logging
 from flask_restful import Api
 from .auth.resources import user_v1_bp
+from .products.resources import product_v1_bp
+from .inventory.resources import inventory_v1_bp
 
 
 
@@ -32,6 +34,12 @@ def create_app(settings_module):
 
     app.register_blueprint(user_v1_bp)
     logger.info('user blueprint registered')
+
+    app.register_blueprint(product_v1_bp)
+    logger.info('product blueprint registered')
+
+    app.register_blueprint(inventory_v1_bp)
+    logger.info('inventory blueprint registered')
 
     #register_error_handlers(app)
     
