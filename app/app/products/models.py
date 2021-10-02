@@ -7,8 +7,8 @@ class products(db.Model, BaseModelMixin):
     product_unique = db.Column(db.String, nullable=False)
     product_name = db.Column(db.String,nullable=False)
 
-    rsh_inventory = db.relationship('inventory', lazy=True, cascade="all, delete", backref=db.backref('products'))
-    rsh_orders = db.relationship('order_product', lazy=True, cascade="all, delete", backref=db.backref('products'))
+    rsh_inventory = db.relationship('inventory', viewonly=True, lazy=True,  backref=db.backref('products'))
+    rsh_orders = db.relationship('order_product',viewonly=True, lazy=True, backref=db.backref('products'))
 
     #rsh_products = db.relationship('products', lazy=True, backref=db.backref('type', lazy=True))
 
