@@ -1,5 +1,5 @@
 from .schemas import BatchSchema, InventorySchema
-from .models import inventory, batch, batch_inventory
+from .models import inventory, batch, table_batch_inventory
 #from app.decorators import check_token
 from flask import Blueprint, request
 from flask_restful import Api, Resource
@@ -45,7 +45,7 @@ class InventoryNew(Resource):
             ext_code = request_dict.get('ext_code') )
         Inventory.save()
 
-        Batch_inventory= batch_inventory( type = request_dict['batch_type'] )
+        Batch_inventory= table_batch_inventory( type = request_dict['batch_type'] )
         Batch = batch.get_by_lote_and_batch(lote_code = request_dict['batch_lote'], batch_code =request_dict['batch_code'])
         Batch_inventory.rsh_batch = Batch
         Batch_inventory.rsh_inventory = Inventory

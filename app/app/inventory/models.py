@@ -1,15 +1,22 @@
 from app.db import db, BaseModelMixin
 import datetime
 
-class batch_inventory(db.Model,BaseModelMixin):
+'''class batch_inventory(db.Model,BaseModelMixin):
     inventory_id = db.Column(db.Integer,db.ForeignKey('inventory.id'), primary_key=True, nullable=False)
     batch_id = db.Column(db.Integer,db.ForeignKey('batch.id'), primary_key=True, nullable=False)
     type = db.Column(db.String, nullable=False) #output or input
     #test = db.Column(db.String)
     
     rsh_batch = db.relationship('batch', backref=db.backref('inventory', lazy=True), lazy=True, cascade="all, delete")
-    rsh_inventory = db.relationship('inventory', backref= db.backref('batch', lazy=True), lazy=True, cascade="all, delete")
+    rsh_inventory = db.relationship('inventory', backref= db.backref('batch', lazy=True), lazy=True, cascade="all, delete")'''
 
+table_batch_inventory= db.Table( 'table_batch_inventory',
+db.Column('id', db.Integer, primary_key=True),
+db.Column('inventory_id', db.Integer,db.ForeignKey('inventory.id'), primary_key=True),
+db.Column('batch_id', db.Integer,db.ForeignKey('batch.id'), primary_key=True),
+db.Column('type', db.String, nullable=False)
+
+)
 
 class inventory(db.Model, BaseModelMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -19,8 +26,8 @@ class inventory(db.Model, BaseModelMixin):
     ext_code = db.Column(db.String)
     added = db.Column(db.DateTime, default= datetime.datetime.utcnow)
 
-    rsh_batch= db.relationship('batch_inventory',backref=db.backref('inventory'), lazy=True, cascade="all, delete")
-    rsh_products= db.relationship('products',backref= db.backref('inventory'), lazy=True, cascade="all, delete")
+    rsh_batch= db.relationship('batch', secondary='table_batch_inventory', backref=db.backref('inventory'), lazy=True, cascade="all, delete")
+    #rsh_products= db.relationship('products',backref= db.backref('inventory'), lazy=True, cascade="all, delete")
 
 
     def __repr__(self):
@@ -34,7 +41,7 @@ class batch(db.Model,BaseModelMixin):
     lote_code = db.Column(db.Integer, nullable=False)
     batch_code = db.Column(db.Integer, nullable=False)
 
-    rsh_inventory= db.relationship('batch_inventory', backref=db.backref('batch', lazy=True), lazy=True, cascade="all, delete")
+    rsh_inventory= db.relationship('inventory',secondary='table_batch_inventory', backref=db.backref('batch', lazy=True), lazy=True, cascade="all, delete")
 
     def __repr__(self):
         return f'<Batch_code: {self.lote_code} {self.batch_code}>'
