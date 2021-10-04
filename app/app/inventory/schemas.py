@@ -8,7 +8,7 @@ class InventorySchema(ma.Schema):
     type = fields.String()
     status = fields.Boolean()
     ext_code = fields.String()
-    
+    added = fields.Date()
     product_name = fields.String(load_only=True)
     print('1 ok')
     batch_lote = fields.Integer(load_only=True)
@@ -18,12 +18,12 @@ class InventorySchema(ma.Schema):
     batch_type = fields.String(load_only=True)
     print('4 ok')
 
-    rsh_batch = fields.Nested('BatchSchema')
+    rsh_batch = fields.Nested('BatchSchema', many=True)
 
 
 
 class BatchSchema(ma.Schema):
-    id = fields.Integer(dump_only=True)
+    #id = fields.Integer(dump_only=True)
     lote_code =fields.Integer()
     batch_code = fields.Integer()
     

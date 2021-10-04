@@ -11,10 +11,10 @@ import datetime
     rsh_inventory = db.relationship('inventory', backref= db.backref('batch', lazy=True), lazy=True, cascade="all, delete")'''
 
 table_batch_inventory= db.Table( 'table_batch_inventory',
-db.Column('id', db.Integer, primary_key=True),
+#db.Column('id', db.Integer, primary_key=True),
 db.Column('inventory_id', db.Integer,db.ForeignKey('inventory.id'), primary_key=True),
 db.Column('batch_id', db.Integer,db.ForeignKey('batch.id'), primary_key=True),
-db.Column('type', db.String, nullable=False)
+#db.Column('type', db.String, nullable=False)
 
 )
 

@@ -26,6 +26,7 @@ class UseriD(Resource):
 class UserAll(Resource):
     def get(self):
         users= User.get_all()
+        print(users)
         if len(users) == 0:
             raise ObjectNotFound('There are no Users')
         result = user_schema.dump(users, many=True)
@@ -58,7 +59,7 @@ class login(Resource):
         
 
 class UserNew(Resource):
-    @check_token
+    #@check_token
     def put(self):
         data = request.get_json()
         request_dict = user_schema.load(data)

@@ -27,8 +27,9 @@ class BatchCode(Resource):
         return resp, 201
     def get(self, lote_code, batch_code):
         _batch = batch.get_by_lote_and_batch(lote_code=lote_code,batch_code=batch_code)
-        resp=inventory_schema.dump(_batch.inventory)
-        return batch_schema.dump(resp, many=True)
+        #print(_batch.inventory)
+        resp=inventory_schema.dump(_batch.inventory, many=True)
+        return resp,200 #batch_schema.dump(resp, many=True)
 
 
 
@@ -45,11 +46,15 @@ class InventoryNew(Resource):
             ext_code = request_dict.get('ext_code') )
         Inventory.save()
 
-        Batch_inventory= table_batch_inventory( type = request_dict['batch_type'] )
+       # Batch_inventory= table_batch_inventory()
         Batch = batch.get_by_lote_and_batch(lote_code = request_dict['batch_lote'], batch_code =request_dict['batch_code'])
-        Batch_inventory.rsh_batch = Batch
-        Batch_inventory.rsh_inventory = Inventory
-        Inventory.rsh_batch.append(Batch_inventory)
+        if Batch is None:
+            raise 'There is no batch with those numbers'
+        #Batch_inventory.rsh_batch = Batch
+        #Batch_inventory.rsh_inventory = Inventory
+        Inventory.rsh_batch.append(Batch)
+        Batch.rsh_inventory.append(Inventory)
+        Batch.save()
         Inventory.save()
 
         resp = inventory_schema.dump(Inventory)
@@ -57,10 +62,11 @@ class InventoryNew(Resource):
 
 class InventoryAll(Resource):
     def get(self):
-        _inventory= inventory.get_all()
-        if len(_inventory) == 0:
-            raise ObjectNotFound('There are no Users')
-        resp = InventorySchema.dump(_inventory, many=True)
+        Inventory= inventory.get_all()
+        print(Inventory)
+        if len(Inventory) == 0:
+            raise ObjectNotFound('Inventory is emty')
+        resp = inventory_schema.dump(Inventory, many=True)
         return resp, 200
 
 
