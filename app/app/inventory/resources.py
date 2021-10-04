@@ -30,6 +30,7 @@ class BatchCode(Resource):
     def get(self, lote_code, batch_code):
         _batch = batch.get_by_lote_and_batch(lote_code=lote_code,batch_code=batch_code)
         print(_batch)
+        print(_batch.inventory)
         resp=inventory_schema.dump(_batch.inventory, many=True)
         return resp, 200 #RETURNS  LOTE_CODE AND BATCH_CODE OF THE PRODUCTS THAT HAVE THE GIVEN VIRABLES
                          #SHOULD RETURN THE PRODUCTS THAT HAVE THOSE VARIABLES ONLY
@@ -53,19 +54,19 @@ class InventoryNew(Resource):
         Batch = batch.get_by_lote_and_batch(lote_code = request_dict['batch_lote'], batch_code =request_dict['batch_code'])
         Batch_inventory.rsh_batch = Batch
         Batch_inventory.rsh_inventory = Inventory
-        Inventory.rsh_batch.append(Batch_inventory)
-        #Batch.rsh_inventory.append(Batch_inventory)
+        Inventory.batch.append(Batch_inventory)
+        Batch.inventory.append(Batch_inventory)
         Inventory.save()
-        #Batch.save()
+        Batch.save()
 
-        resp = inventory_schema.dump(Inventory)
+        resp = inventory_schema.dump(Inventory, many=True)
         return resp, 201  #WORKS WELL, I SHOULD CHANGE THE NAME OF THE RELATIONSHIP TO SOMETHING MORE UNDERTANDABLE
 
 class InventoryAll(Resource):
     def get(self):
         _inventory= inventory.get_all()
         if len(_inventory) == 0:
-            raise ObjectNotFound('There are no Users')
+            raise ObjectNotFound('Inventory is empty')
         resp = inventory_schema.dump(_inventory, many=True)
         return resp, 200 #WORKS WELL, BUT IS NOT RETURNING THE LOT-CODE AND THE BATCH CODE OF EACH PRODUCT
 
@@ -74,7 +75,7 @@ class InventoryAll(Resource):
 api.add_resource(BatchCode, '/api/v1/batches', endpoint = 'new-batch')
 api.add_resource(InventoryNew, '/api/v1/inventory', endpoint = 'new-inventory')
 api.add_resource(InventoryAll, '/api/v1/inventory', endpoint = 'all-inventory')
-api.add_resource(BatchCode, '/api/v1/batches/<int:lote_code>,<int:batch_code>', endpoint = 'batch-in-inventory')
+api.add_resource(BatchCode, '/api/v1/inventory/<int:lote_code>,<int:batch_code>', endpoint = 'batch-in-inventory')
 
 
 
