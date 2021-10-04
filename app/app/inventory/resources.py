@@ -24,11 +24,15 @@ class BatchCode(Resource):
             batch_code = request_dict['batch_code'])
         _batch.save()
         resp = batch_schema.dump(_batch)
-        return resp, 201
+        return resp, 201 #WORKS PERFECTLY
+
+
     def get(self, lote_code, batch_code):
         _batch = batch.get_by_lote_and_batch(lote_code=lote_code,batch_code=batch_code)
-        resp=inventory_schema.dump(_batch.inventory)
-        return batch_schema.dump(resp, many=True)
+        print(_batch)
+        resp=inventory_schema.dump(_batch.inventory, many=True)
+        return resp, 200 #RETURNS  LOTE_CODE AND BATCH_CODE OF THE PRODUCTS THAT HAVE THE GIVEN VIRABLES
+                         #SHOULD RETURN THE PRODUCTS THAT HAVE THOSE VARIABLES ONLY
 
 
 
@@ -50,18 +54,20 @@ class InventoryNew(Resource):
         Batch_inventory.rsh_batch = Batch
         Batch_inventory.rsh_inventory = Inventory
         Inventory.rsh_batch.append(Batch_inventory)
+        #Batch.rsh_inventory.append(Batch_inventory)
         Inventory.save()
+        #Batch.save()
 
         resp = inventory_schema.dump(Inventory)
-        return resp, 201
+        return resp, 201  #WORKS WELL, I SHOULD CHANGE THE NAME OF THE RELATIONSHIP TO SOMETHING MORE UNDERTANDABLE
 
 class InventoryAll(Resource):
     def get(self):
         _inventory= inventory.get_all()
         if len(_inventory) == 0:
             raise ObjectNotFound('There are no Users')
-        resp = InventorySchema.dump(_inventory, many=True)
-        return resp, 200
+        resp = inventory_schema.dump(_inventory, many=True)
+        return resp, 200 #WORKS WELL, BUT IS NOT RETURNING THE LOT-CODE AND THE BATCH CODE OF EACH PRODUCT
 
 
 

@@ -18,7 +18,7 @@ class InventorySchema(ma.Schema):
     batch_type = fields.String(load_only=True)
     print('4 ok')
 
-    rsh_batch = fields.Nested('BatchSchema')
+    rsh_batch = fields.Nested('BatchSchema') #IF I ADD many=True wont work with my 127.0.0.1:5000/api/v1/batches/1,1 API
 
 
 
@@ -27,7 +27,7 @@ class BatchSchema(ma.Schema):
     lote_code =fields.Integer()
     batch_code = fields.Integer()
     
-    #rsh_inventory = fields.Nested('BatchSchema', many=True) 
+    #rsh_inventory = fields.Nested('InventorySchema', many=True) 
 
 
 
