@@ -14,6 +14,7 @@ api = Api(inventory_v1_bp)
 
 
 class BatchCode(Resource):
+
     def put(self):
         data=request.get_json()
         request_dict= batch_schema.load(data)
@@ -25,11 +26,13 @@ class BatchCode(Resource):
         _batch.save()
         resp = batch_schema.dump(_batch)
         return resp, 201
+
     def get(self, lote_code, batch_code):
         _batch = batch.get_by_lote_and_batch(lote_code=lote_code,batch_code=batch_code)
-        #print(_batch.inventory)
-        resp=inventory_schema.dump(_batch.inventory, many=True)
-        return resp,200 #batch_schema.dump(resp, many=True)
+        if _batch is None:
+            raise 'No batch number funded with that lote_code and batch_code'
+        resp = inventory_schema.dump(_batch.inventory, many=True)
+        return resp,200 
 
 
 
@@ -39,6 +42,8 @@ class InventoryNew(Resource):
         data = request.get_json()
         request_dict=inventory_schema.load(data)
         product= products.get_by_name(product_name = request_dict['product_name'])
+        if product is None:
+            raise 'No product with that name'
 
         Inventory= inventory(
             product_id = product.id, 
@@ -46,14 +51,13 @@ class InventoryNew(Resource):
             ext_code = request_dict.get('ext_code') )
         Inventory.save()
 
-       # Batch_inventory= table_batch_inventory()
+    
         Batch = batch.get_by_lote_and_batch(lote_code = request_dict['batch_lote'], batch_code =request_dict['batch_code'])
         if Batch is None:
             raise 'There is no batch with those numbers'
-        #Batch_inventory.rsh_batch = Batch
-        #Batch_inventory.rsh_inventory = Inventory
-        Inventory.rsh_batch.append(Batch)
-        Batch.rsh_inventory.append(Inventory)
+
+        Inventory.batch.append(Batch) #Here I add the Batch to the inventory-batch relationship
+        Batch.inventory.append(Inventory) #Here I add the Inventory products to the batch
         Batch.save()
         Inventory.save()
 
@@ -74,7 +78,7 @@ class InventoryAll(Resource):
 api.add_resource(BatchCode, '/api/v1/batches', endpoint = 'new-batch')
 api.add_resource(InventoryNew, '/api/v1/inventory', endpoint = 'new-inventory')
 api.add_resource(InventoryAll, '/api/v1/inventory', endpoint = 'all-inventory')
-api.add_resource(BatchCode, '/api/v1/batches/<int:lote_code>,<int:batch_code>', endpoint = 'batch-in-inventory')
+api.add_resource(BatchCode, '/api/v1/inventory/<int:lote_code>,<int:batch_code>', endpoint = 'inventory_by_batch_code')
 
 
 

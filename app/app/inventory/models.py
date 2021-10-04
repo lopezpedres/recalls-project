@@ -11,7 +11,6 @@ import datetime
     rsh_inventory = db.relationship('inventory', backref= db.backref('batch', lazy=True), lazy=True, cascade="all, delete")'''
 
 table_batch_inventory= db.Table( 'table_batch_inventory',
-#db.Column('id', db.Integer, primary_key=True),
 db.Column('inventory_id', db.Integer,db.ForeignKey('inventory.id'), primary_key=True),
 db.Column('batch_id', db.Integer,db.ForeignKey('batch.id'), primary_key=True),
 #db.Column('type', db.String, nullable=False)
@@ -26,7 +25,7 @@ class inventory(db.Model, BaseModelMixin):
     ext_code = db.Column(db.String)
     added = db.Column(db.DateTime, default= datetime.datetime.utcnow)
 
-    rsh_batch= db.relationship('batch', secondary='table_batch_inventory', backref=db.backref('inventory'), lazy=True, cascade="all, delete")
+    rsh_batch= db.relationship('batch', secondary='table_batch_inventory', backref=db.backref('inventory', lazy=True), lazy=True, cascade="all, delete")
     #rsh_products= db.relationship('products',backref= db.backref('inventory'), lazy=True, cascade="all, delete")
 
 
