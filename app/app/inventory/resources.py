@@ -45,7 +45,7 @@ class InventoryNew(Resource):
         '''Creates a new Inventory item of the given product and the given batch '''
         data = request.get_json()
         request_dict=inventory_schema.load(data)
-        product= products.get_by_name(product_name = request_dict['product_name'])
+        product= products.get_by_product_unique(product_name = request_dict['product_unique'])
 
         Inventory= inventory(
             product_id = product.id, 

@@ -19,10 +19,10 @@ class NewProduct(Resource):
     def put(self):
         data = request.get_json()
         request_dict = product_schema.load(data)
-        product = products.get_by_name(product_name=request_dict['product_name'])
+        product = products.get_by_product_unique(product_unique=request_dict['product_unique'])
 
         if product:
-            raise ObjectNotFound('There is a product with that name, try again')
+            raise ObjectNotFound('There is a product with that unique id, try again')
 
         product = products(
             product_unique = request_dict['product_unique'],

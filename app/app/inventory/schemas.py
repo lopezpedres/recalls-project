@@ -9,7 +9,7 @@ class InventorySchema(ma.Schema):
     status = fields.Boolean()
     ext_code = fields.String()
     
-    product_name = fields.String(load_only=True)
+    product_unique = fields.String(load_only=True)
     batch_lote = fields.Integer(load_only=True)
     batch_code = fields.Integer(load_only=True)
     batch_type = fields.String(load_only=True)

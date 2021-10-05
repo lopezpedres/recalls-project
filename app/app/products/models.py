@@ -17,8 +17,8 @@ class products(db.Model, BaseModelMixin):
         return f'<Unique Product Identifier: {self.product_unique}>'
 
     @classmethod
-    def get_by_name(cls,product_name): #TODO: FInish this method
-        return cls.query.filter_by(product_name=product_name).first()
+    def get_by_product_unique(cls,product_unique): #TODO: FInish this method
+        return cls.query.filter_by(product_unique=product_unique).first()
 
 
 class order(db.Model,BaseModelMixin):

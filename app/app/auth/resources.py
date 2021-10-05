@@ -24,6 +24,7 @@ class UseriD(Resource):
         return result, 200
 
 class UserAll(Resource):
+    @check_token
     def get(self):
         users= User.get_all()
         if len(users) == 0:
@@ -35,6 +36,7 @@ class UserAll(Resource):
 
 
 class login(Resource):
+    @check_token
     def post(self):
         data = request.get_json()
         request_dict=user_schema.dump(data)
