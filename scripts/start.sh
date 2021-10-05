@@ -5,7 +5,7 @@ source $(dirname "$0")/../config/app.local.env
 set +a
 
 #flask db init
-flask db migrate -m "Delated rows of batch and added a created column to inventory"
+flask db migrate -m "Added secondary variable in the many to many relationship association table"
 flask db upgrade
 
 # if PYTHON_VENV is set, then activate it

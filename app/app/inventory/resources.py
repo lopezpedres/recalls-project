@@ -15,6 +15,7 @@ api = Api(inventory_v1_bp)
 
 class BatchCode(Resource):
     def put(self):
+        '''Creates a new batch'''
         data=request.get_json()
         request_dict= batch_schema.load(data)
         if batch.get_by_lote_and_batch(lote_code = request_dict['lote_code'], batch_code =request_dict['batch_code']):
@@ -28,10 +29,11 @@ class BatchCode(Resource):
 
 
     def get(self, lote_code, batch_code):
+        '''Returns the inventory items with the given batch'''
         _batch = batch.get_by_lote_and_batch(lote_code=lote_code,batch_code=batch_code)
         print(_batch)
         print(_batch.inventory)
-        resp=inventory_schema.dump(_batch.inventory, many=True)
+        resp=inventory_schema.dump(_batch.rsh_inventory, many=True)
         return resp, 200 #RETURNS  LOTE_CODE AND BATCH_CODE OF THE PRODUCTS THAT HAVE THE GIVEN VIRABLES
                          #SHOULD RETURN THE PRODUCTS THAT HAVE THOSE VARIABLES ONLY
 
@@ -40,6 +42,7 @@ class BatchCode(Resource):
 
 class InventoryNew(Resource):
     def put(self):
+        '''Creates a new Inventory item of the given product and the given batch '''
         data = request.get_json()
         request_dict=inventory_schema.load(data)
         product= products.get_by_name(product_name = request_dict['product_name'])
@@ -50,20 +53,25 @@ class InventoryNew(Resource):
             ext_code = request_dict.get('ext_code') )
         Inventory.save()
 
-        Batch_inventory= batch_inventory( type = request_dict['batch_type'] )
         Batch = batch.get_by_lote_and_batch(lote_code = request_dict['batch_lote'], batch_code =request_dict['batch_code'])
-        Batch_inventory.rsh_batch = Batch
+        Batch_inventory= batch_inventory(rsh_inventory=Inventory, rsh_batch= Batch,type = request_dict['batch_type'] )
+        Batch_inventory.save()
+
+
+
+        '''Batch_inventory.rsh_batch = Batch
         Batch_inventory.rsh_inventory = Inventory
         Inventory.batch.append(Batch_inventory)
         Batch.inventory.append(Batch_inventory)
         Inventory.save()
-        Batch.save()
+        Batch.save()'''
 
-        resp = inventory_schema.dump(Inventory, many=True)
+        resp = inventory_schema.dump(Inventory)
         return resp, 201  #WORKS WELL, I SHOULD CHANGE THE NAME OF THE RELATIONSHIP TO SOMETHING MORE UNDERTANDABLE
 
 class InventoryAll(Resource):
     def get(self):
+        '''Returns all the inventory items'''
         _inventory= inventory.get_all()
         if len(_inventory) == 0:
             raise ObjectNotFound('Inventory is empty')

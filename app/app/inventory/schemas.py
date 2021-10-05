@@ -14,7 +14,7 @@ class InventorySchema(ma.Schema):
     batch_code = fields.Integer(load_only=True)
     batch_type = fields.String(load_only=True)
 
-    rsh_batch = fields.Nested('BatchSchema') #IF I ADD many=True wont work with my 127.0.0.1:5000/api/v1/batches/1,1 API
+    #batch = fields.Nested('BatchSchema') #IF I ADD many=True wont work with my 127.0.0.1:5000/api/v1/batches/1,1 API
 
 
 
