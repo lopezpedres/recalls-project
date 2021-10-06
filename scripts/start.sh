@@ -5,7 +5,7 @@ source $(dirname "$0")/../config/app.local.env
 set +a
 
 #flask db init
-flask db migrate -m "Added secondary variable in the many to many relationship association table"
+flask db migrate -m "Fixing datatype of the contact column in order's table"
 flask db upgrade
 
 # if PYTHON_VENV is set, then activate it
