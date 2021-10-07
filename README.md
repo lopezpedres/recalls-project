@@ -1,4 +1,4 @@
-# ems-project
+# Recalls-project
 
 ## Environment setup
 
