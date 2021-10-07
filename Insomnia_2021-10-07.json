@@ -1,0 +1,404 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2021-10-07T18:15:58.879Z",
+  "__export_source": "insomnia.desktop.app:v2021.5.3",
+  "resources": [
+    {
+      "_id": "req_9e170df023664265b39d0383d19e4e10",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633484168701,
+      "created": 1633484112454,
+      "url": "127.0.0.1:5000/api/v1/orders/order_01",
+      "name": "Get Order",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1633062394632,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e6d0afa6f450431b97676599da910c11",
+      "parentId": "wrk_020e4f301cfe4b378fb90b55ee341d28",
+      "modified": 1633050817996,
+      "created": 1633050817996,
+      "name": "EMS-FOLDER",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1633050817996,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_020e4f301cfe4b378fb90b55ee341d28",
+      "parentId": null,
+      "modified": 1631131846776,
+      "created": 1631131788343,
+      "name": "Trials",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_a6bb4b86e2614a41a69ae38f8ebc0123",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633630021878,
+      "created": 1633205052984,
+      "url": "127.0.0.1:5000/api/v1/inventory/1,1",
+      "name": "Get Inventory by Batch",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1633062394582,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_f16888410dc6427aa97c7fb822aeacb7",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633312329762,
+      "created": 1633312311221,
+      "url": "127.0.0.1:5000/api/v1/inventory",
+      "name": "Get All Inventory",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1633062394569.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_af2f6ed5386c4d1686d5ca227f01c231",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633467416062,
+      "created": 1632354622351,
+      "url": "127.0.0.1:5000/api/v1/users/1",
+      "name": "Get User",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1633062394557,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_7978bac51cd24d15b7ced61b1008939d",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633467189471,
+      "created": 1631131835719,
+      "url": "127.0.0.1:5000/api/v1/users",
+      "name": "Get All Users",
+      "description": "",
+      "method": "GET",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ca0b77ba1f87479186e63f27181b3a72"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1633062394544.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ce060b050a234bc080ad2e9b901ea041",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633629476477,
+      "created": 1633473828703,
+      "url": "127.0.0.1:5000/api/v1/orders",
+      "name": "New Order",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"order_unique\":\"order_03\",\n\t\"contact\": \"Mate\",\n\t\"products_dict\":\n\t\t{\n\t\t\t\"chocolatebar_01\": \"11\",\n\t\t\t\"chocolatebar_02\": \"8\",\n\t\t\t\"chocolatebar_03\": \"13\"\n\t\t\t\n\t\t}\n\t\t\n\t\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_9194552a574e4eb1939696e49f55c469"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1633062394538.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_591a8429382c42588fa0d4b469fca333",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633482357761,
+      "created": 1633062394532,
+      "url": "127.0.0.1:5000/api/v1/batches",
+      "name": "New Batch",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"lote_code\" : \"2\",\n\t\"batch_code\": \"2\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_6a4a3a04ecac4b59af5f540f6c6f6bd3"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1633062394532,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3eb30e5ae71b4f5197b3ed1d38c482bd",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633482424049,
+      "created": 1633063855555,
+      "url": "127.0.0.1:5000//api/v1/inventory",
+      "name": "New Inventory Item",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"quantity\": \"50\",\n    \"product_unique\" : \"chocolatebar_03\",\n\t\n    \"batch_lote\" : \"1\",\n    \"batch_code\" : \"1\",\n\t\t\"batch_type\" : \"output\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_18feb4afc1cb41f1a4a64a54c665ca08"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1632793171401.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_fdb911c0f6b140dfaa878d8a237c13ca",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633482279636,
+      "created": 1633050858002,
+      "url": "127.0.0.1:5000//api/v1/product",
+      "name": "New Product",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \"product_unique\": \"chocolatebar_03\",\n\t\"product_name\": \"6-pack White Chocolate Bar \"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_935eab7ed2f5484a9bbd332512952734"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1632523948271,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ca8d9060cac94d5ba09bdb4c8b3713c3",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633630086825,
+      "created": 1632354784207,
+      "url": "127.0.0.1:5000/api/v1/users?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJleGFtcGxlXzFAbWFpbC5jb20ifQ.Ty8hDE1y-PLJJzU1zJgf3mRMseL89ZQpiK7wPW6M5i0",
+      "name": "Post User",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"example_2\",\n  \"admin\": true,\n  \"email\": \"example_2@mail.com\",\n  \"password\": \"12345\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_7bdcc1b2144341c28eec68d0955b19a7"
+        }
+      ],
+      "authentication": { "type": "bearer", "token": "" },
+      "metaSortKey": -1632523948239.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_53193c24fbbb4850bd982767bbf6ebf7",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633059153189,
+      "created": 1632609418390,
+      "url": "http://localhost:5000/api/v1/users/1",
+      "name": "Update User",
+      "description": "",
+      "method": "POST",
+      "body": { "mimeType": "application/json", "text": "" },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_d066b6c68c844681a5bf731bf2b157b5"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1632523948233.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b126e3955ab54138bddbe4fc5bcca90a",
+      "parentId": "fld_e6d0afa6f450431b97676599da910c11",
+      "modified": 1633630070839,
+      "created": 1632523948221,
+      "url": "127.0.0.1:5000/api/v1/login?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJleGFtcGxlXzFAbWFpbC5jb20ifQ.Ty8hDE1y-PLJJzU1zJgf3mRMseL89ZQpiK7wPW6M5i0",
+      "name": "Login",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"example_1@mail.com\",\n  \"password\": \"12345\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_368f53e1d5984c2fb29494badfecc512"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1632523948221,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_5702623a4695b6d5c053b10477416e2968954abd",
+      "parentId": "wrk_020e4f301cfe4b378fb90b55ee341d28",
+      "modified": 1631131788349,
+      "created": 1631131788349,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1631131788349,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_5702623a4695b6d5c053b10477416e2968954abd",
+      "parentId": "wrk_020e4f301cfe4b378fb90b55ee341d28",
+      "modified": 1631131788351,
+      "created": 1631131788351,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_ea1b90c540f0421391212a01eb7f4c6c",
+      "parentId": "wrk_020e4f301cfe4b378fb90b55ee341d28",
+      "modified": 1631131788344,
+      "created": 1631131788344,
+      "fileName": "Get Client",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}
