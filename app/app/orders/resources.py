@@ -1,4 +1,4 @@
-from .schemas import Order_Schema, ProductSchema
+from .schemas import Order_Schema, ProductSchema, ProductFromOrder
 from .models import order, order_product, products
 #from app.decorators import check_token
 from flask import Blueprint, request
@@ -8,7 +8,7 @@ from app.error_handler import ObjectNotFound
 orders_v1_bp=Blueprint('orders_v1_bp',__name__)
 order_schema= Order_Schema()
 product_schema = ProductSchema()
-#product_order= ProductFromOrder()
+product_order= ProductFromOrder()
 
 api = Api(orders_v1_bp)
 
@@ -20,27 +20,34 @@ class NewOrder(Resource):
         _order = order.get_by_unique(r_d['order_unique'])
         if _order:
             raise 'There already an order with that unique id '
+
         _order = order(
             order_unique=r_d['order_unique'],
             contact = r_d['contact']
             )
-        _order.save()
 
-            #adding the products to the order
+        #adding the products to the order
         products_dict = r_d['products_dict']
+        #we can create a function to have lines 32 to 35 somehwere else
         for prod_qty in products_dict:
             product= products.get_by_product_unique(prod_qty)
             o=order_product(rsh_order=_order,rsh_product=product, quantity=products_dict[prod_qty])
             o.save()
+        _order.save()
         resp = order_schema.dump(_order)
         return resp, 201
+        
     def get(self,order_unique):
         _order = order.get_by_unique(order_unique)
         _order_product = order_product.get_by_order_id(order_id=_order.id)
-        print(_order.rsh_product)
+        order_list=[]
         for x in _order_product:
-            print(x.rsh_product)
-        resp = product_schema.dump(_order.rsh_product, many=True)
+            order_dict={}
+            order_dict['order']=x.rsh_product
+            order_dict['quantity']=x.quantity
+            order_list.append(order_dict)
+
+        resp = product_order.dump(order_list,many=True)
         return resp, 200
 
 class NewProduct(Resource):
