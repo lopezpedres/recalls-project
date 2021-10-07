@@ -1,5 +1,7 @@
 # ems-project
 
+Note: To test the current APIs go to dev branch
+
 ## Environment setup
 
 The `docker-compose.yml` has two services defined:
