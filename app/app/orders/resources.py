@@ -41,11 +41,11 @@ class NewOrder(Resource):
     def get(self,order_unique):
         _order = order.get_by_unique(order_unique)
         _order_product = order_product.get_by_order_id(order_id=_order.id)
-        order_dict={"Products":{}, "Order_Products":[]}
+        order_dict={"Products":{}, "Order_Products":{}}
         for x in _order_product:
-            print(x.rsh_product.id)
-            order_dict['Products'].append(x.rsh_product)
-            order_dict['Order_Products'].append(x)
+            order_dict['Products'][x.rsh_product.id]=x.rsh_product
+            order_dict['Order_Products'][x.product_id]= x
+            print(x.product_id)
         print(order_dict)
         resp = product_order.dump(order_dict)
         return resp, 200

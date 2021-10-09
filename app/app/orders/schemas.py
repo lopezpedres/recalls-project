@@ -11,16 +11,17 @@ class Order_Schema(ma.Schema):
 
 
 class ProductSchema(ma.Schema):
-    id = fields.Integer(dump_only=True)
+    #id = fields.Integer(dump_only=True)
     product_unique = fields.String()
     product_name =fields.String()
     
 
 class ProductFromOrder(ma.Schema):
-    Products=fields.Nested('ProductSchema', many=True)
-    Order_Products=fields.Nested('OrderProduct', many=True)
+    Products=fields.Dict(keys=fields.Integer(), values=fields.Nested('ProductSchema'))
+    Order_Products=fields.Dict(keys=fields.Integer(), values=fields.Nested('OrderProduct'))
 
 class OrderProduct(ma.Schema):
-    product_id = fields.Integer()
+    #product_id = fields.Integer()
     quantity= fields.Integer()
+
 
