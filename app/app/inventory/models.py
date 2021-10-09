@@ -10,6 +10,10 @@ class batch_inventory(db.Model,BaseModelMixin):
     rsh_batch = db.relationship('batch', backref=db.backref('inventory', lazy=True), lazy=True, cascade="all, delete")
     rsh_inventory = db.relationship('inventory', backref= db.backref('batch', lazy=True), lazy=True, cascade="all, delete")
 
+    @classmethod
+    def get_by_batch_id(cls,batch_id):
+        return cls.query.filter_by(batch_id=batch_id).all()
+
 
 class inventory(db.Model, BaseModelMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
@@ -21,6 +25,7 @@ class inventory(db.Model, BaseModelMixin):
 
     rsh_batch= db.relationship('batch', secondary= 'batch_inventory')
     #rsh_products= db.relationship('products',backref= db.backref('inventory'), lazy=True, cascade="all, delete")
+    
 
 
     def __repr__(self):

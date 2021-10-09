@@ -1,4 +1,4 @@
-from .schemas import BatchSchema, InventorySchema
+from .schemas import BatchSchema, InventorySchema, IngredientsProductsSchema
 from .models import inventory, batch, batch_inventory
 #from app.decorators import check_token
 from flask import Blueprint, request
@@ -9,6 +9,7 @@ from app.error_handler import ObjectNotFound
 inventory_v1_bp=Blueprint('inventory_v1_bp',__name__)
 batch_schema= BatchSchema()
 inventory_schema = InventorySchema()
+ingredientes_products_schema= IngredientsProductsSchema()
 
 api = Api(inventory_v1_bp)
 
@@ -70,6 +71,29 @@ class InventoryAll(Resource):
 
         resp = inventory_schema.dump(_inventory, many=True)
         return resp, 200
+class IngredientsProducts(Resource):
+    def get(self, lote_code, batch_code):
+        '''Returns the ingredients used to produce the given 
+        batch and the products created with those ingredients'''
+        _batch=batch.get_by_lote_and_batch(lote_code,batch_code)
+       
+        
+        _batch_inventory = batch_inventory.get_by_batch_id(_batch.id)
+        print(_batch_inventory)
+        _all = {'Ingredients':[], 'Products':[]}
+        for item in _batch_inventory:
+            if item.type=='input':
+                _all['Ingredients'].append(item.rsh_inventory)
+
+            if item.type=='output':
+                _all['Products'].append(item.rsh_inventory)
+
+        resp = ingredientes_products_schema.dump(_all)
+        return resp, 200
+        
+
+
+
 
 
 
@@ -77,6 +101,6 @@ api.add_resource(BatchCode, '/api/v1/batches', endpoint = 'new-batch')
 api.add_resource(InventoryNew, '/api/v1/inventory', endpoint = 'new-inventory')
 api.add_resource(InventoryAll, '/api/v1/inventory', endpoint = 'all-inventory')
 api.add_resource(BatchCode, '/api/v1/inventory/<int:lote_code>,<int:batch_code>', endpoint = 'batch-in-inventory')
-
+api.add_resource(IngredientsProducts, '/api/v1/recall/<int:lote_code>,<int:batch_code>', endpoint = 'recall')
 
 

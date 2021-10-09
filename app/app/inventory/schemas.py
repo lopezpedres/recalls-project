@@ -8,6 +8,7 @@ class InventorySchema(ma.Schema):
     type = fields.String()
     status = fields.Boolean()
     ext_code = fields.String()
+    added=fields.Date()
     
     product_unique = fields.String(load_only=True)
     batch_lote = fields.Integer(load_only=True)
@@ -28,4 +29,7 @@ class BatchSchema(ma.Schema):
 
 
 
+class IngredientsProductsSchema(ma.Schema):
+    Ingredients = fields.Nested('InventorySchema', many=True)
+    Products = fields.Nested('InventorySchema', many=True)
 

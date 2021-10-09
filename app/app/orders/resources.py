@@ -1,4 +1,4 @@
-from .schemas import Order_Schema, ProductSchema, ProductFromOrder
+from .schemas import Order_Schema, ProductSchema, ProductFromOrder, OrderProduct
 from .models import order, order_product, products
 #from app.decorators import check_token
 from flask import Blueprint, request
@@ -9,6 +9,7 @@ orders_v1_bp=Blueprint('orders_v1_bp',__name__)
 order_schema= Order_Schema()
 product_schema = ProductSchema()
 product_order= ProductFromOrder()
+#_order_product= OrderProduct()
 
 api = Api(orders_v1_bp)
 
@@ -40,14 +41,13 @@ class NewOrder(Resource):
     def get(self,order_unique):
         _order = order.get_by_unique(order_unique)
         _order_product = order_product.get_by_order_id(order_id=_order.id)
-        order_list=[]
+        order_dict={"Products":{}, "Order_Products":[]}
         for x in _order_product:
-            order_dict={}
-            order_dict['order']=x.rsh_product
-            order_dict['quantity']=x.quantity
-            order_list.append(order_dict)
-
-        resp = product_order.dump(order_list,many=True)
+            print(x.rsh_product.id)
+            order_dict['Products'].append(x.rsh_product)
+            order_dict['Order_Products'].append(x)
+        print(order_dict)
+        resp = product_order.dump(order_dict)
         return resp, 200
 
 class NewProduct(Resource):

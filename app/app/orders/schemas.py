@@ -17,6 +17,10 @@ class ProductSchema(ma.Schema):
     
 
 class ProductFromOrder(ma.Schema):
-    order=fields.Nested('ProductSchema')
-    quantity=fields.Integer()
+    Products=fields.Nested('ProductSchema', many=True)
+    Order_Products=fields.Nested('OrderProduct', many=True)
+
+class OrderProduct(ma.Schema):
+    product_id = fields.Integer()
+    quantity= fields.Integer()
 
